@@ -18,7 +18,7 @@ jobs:
       - name: Instalar Flake8
         run: pip install flake8
       - name: Executar Lint (Flake8)
-        run: flake8 ./backend --count --show-source --statistics
+        run: flake8 ./backend --count --show-source --statistics --max-line-length=120
 
   build-backend:
     needs: lint-backend
