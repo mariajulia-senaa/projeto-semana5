@@ -1,9 +1,8 @@
-"use function";
 "use client";
 
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../lib/firebase";
+import { db } from "../lib/firebase"; // Certifica-te que este caminho está correto
 
 export default function Home() {
   const [dados, setDados] = useState<{ status: string; items: { id: string, nome: string }[] }>({ status: "loading", items: [] });
@@ -13,15 +12,12 @@ export default function Home() {
       try {
         const fetchedItems: { id: string, nome: string }[] = [];
 
-        // Verifica a fonte de dados pela variável de ambiente
-        if (process.env.NEXT_PUBLIC_DATA_SOURCE === 'firestore') {
-          const querySnapshot = await getDocs(collection(db, "items"));
-          querySnapshot.forEach((doc) => {
-            fetchedItems.push({ id: doc.id, nome: doc.data().nome });
-          });
-        }
+        // Fomos buscar os dados diretamente sem o IF da variável de ambiente
+        const querySnapshot = await getDocs(collection(db, "items"));
+        querySnapshot.forEach((doc) => {
+          fetchedItems.push({ id: doc.id, nome: doc.data().nome });
+        });
 
-        // Formato exato exigido no guião
         setDados({ status: "ok", items: fetchedItems });
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -34,8 +30,9 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-zinc-50 dark:bg-black">
-      <h1 className="text-3xl font-bold mb-8 text-black dark:text-white">
-        Emulador Firestore (Checkpoint 3)
+      {/* Título alterado para a Versão B exigida no guião */}
+      <h1 className="text-3xl font-bold mb-8 text-blue-500 dark:text-blue-400">
+        Produção Firestore (Versão B)
       </h1>
       
       {dados.status === "loading" ? (
@@ -47,7 +44,7 @@ export default function Home() {
           {dados.items.map((item) => (
             <li 
               key={item.id} 
-              className="p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg text-black dark:text-zinc-100 bg-white dark:bg-zinc-900 text-center"
+              className="p-4 border border-blue-200 dark:border-blue-800 rounded-lg text-black dark:text-zinc-100 bg-white dark:bg-zinc-900 text-center"
             >
               {item.nome}
             </li>
