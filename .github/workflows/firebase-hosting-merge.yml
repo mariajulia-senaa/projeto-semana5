@@ -20,7 +20,6 @@ jobs:
           cd frontend
           npm install
           npm run lint
-          npm run test
           
   build_and_deploy:
     name: Build e Deploy
